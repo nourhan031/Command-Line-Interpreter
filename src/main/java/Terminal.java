@@ -1,44 +1,72 @@
-import java.io.File;
+import java.io.*;
+import java.util.*;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.NoSuchFileException;
-import java.util.Scanner;
-import javafx.application.Application;
 public class Terminal {
     Parser parser;
-    //File currentPath = new File(System.getProperty(""));
-    File currentPath = new File("C:\\Users\\nourh\\IdeaProjects\\OS Assignments\\Assignment 1\\Command Line Interpreter");
-    //public String pwd(){}
-    //public void cd(String[] args){}
-// ...
-
+    String path_;//store the cwd path
+    public void setParser(Parser obj){
+        parser = obj;
+        path_=System.getProperty("user.dir");//setting the path_ var to the cwd
+    }
+    //////////////////////////////////////////////////////////////////////////////
+    public void echo(){
+        System.out.println(parser.getArgs()[0]);
+        //parser.getArgs(): retrieves the arr of args entered by the user
+        //[0] to access the 1st arg in the array
+    }
+    //NOTE:
+    //it's a good practice to document potential exceptions in method signatures to ensure code maintainability and readability, even if they are not currently being thrown.
+    public void pwd() throws IOException {
+        System.out.println(path_);//prints the value stored in path_ which represents the cwd
+    }
+    public void exit(){
+        System.exit(0);
+    }
+    //////////////////////////////////////////////////////////////////////////////
     //This method will choose the suitable command method to be called
-    public void chooseCommandAction(String command, String[] args){
-        switch(command){
-            case "echo" :
-                System.out.println(echo(args));
+    public void chooseCommandAction() throws IOException {
+        switch(parser.getCommandName()){
+            case "echo":
+                echo();
                 break;
-            case "pwd" :
-                System.out.println(pwd());
+            case "exit":
+                System.out.println("You left!");
+                exit();
                 break;
-            default:
-                System.out.println("Command not recognized: " + command);
-
+            case "pwd":
+                pwd();
+                break;
+            case "ls":
+                ls();
+                break;
+            case "ls-r":
+                ls_r();
+                break;
+            case "cd":
+                cd();
+                break;
+            case "cat":
+                cat();
+                break;
+            case "touch":
+                touch();
+                break;
+            case "rm":
+                rm();
+                break;
+            case "cp":
+                cp();
+                break;
+            case "rmdir":
+                rmdir();
+                break;
+            case "mkdir":
+                mkdir();
+                break;
         }
     }
-    //////////////////////////////////////////////////////////////////////////////
-    public String echo(String[] args){
-    return String.join(" ",args);
-    }
-    //////////////////////////////////////////////////////////////////////////////
-    public String pwd(){
-        return currentPath.getAbsolutePath();
-    }
-    //////////////////////////////////////////////////////////////////////////////
 
-
-    //////////////////////////////////////////////////////////////////////////////
-    public void exit(){System.exit(0);}
 
 
 

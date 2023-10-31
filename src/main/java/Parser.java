@@ -3,14 +3,16 @@ import java.util.*;
 import java.io.File;
 import java.io.IOException;
 public class Parser {
-    String commandName;
-    String[] args;
+    String commandName;//parsed command name
+    String[] args;//parsed args
     String[] commands = {"echo", "pwd", "ls", "ls-r","cd","mkdir","cat","exit","touch","rm","cp","cp-r","mkdir","rmdir"};
-    public boolean parse(String input){
-        commandName = input.split(" ")[0];
+    public boolean parse(String input){//method to parse user input
+        commandName = input.split(" ")[0];//set to the 1st word in the input split by space
         int i;
         for (i = 0;i < commands.length;i++){
+            //iterate through commands arr to check if the commandName matches any of the predefined ones
             if(commands[i].equals(commandName)){
+                //if a match is found, it splits the input into words and stores them in the args array
                 String [] splits = input.split(" ");
                 commandName = splits[0];
                 args = new String[splits.length-1];
@@ -26,16 +28,17 @@ public class Parser {
                 //return true;
             }
         }
+        //if the commandName isnt found in the commansd array, it throws an IOException and returns false indicating that the input is invalid
         catch (IOException e){
             System.out.println("invalid input");
             return false;
         }
         return true;
     }
-    public String getCommandName(){
+    public String getCommandName(){//method to retrieve the parsed commandName after calling the parse method
         return commandName;
     }
-    public String[] getArgs(){
+    public String[] getArgs(){//method that retrieves the parsed args after calling the parse method
         return args;
     }
 
