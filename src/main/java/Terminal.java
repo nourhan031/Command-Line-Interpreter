@@ -29,7 +29,30 @@ public class Terminal {
         return false;
     }
     public void cp() throws IOException {}
-    public void mkdir(){}
+    public void mkdir(){
+        String[] args = parser.getArgs();//args contains the args provided by mkdir command, it could be a path or a dir name
+        for (String arg : args) {//iterate through each arg that was written after the mkdir command
+            File newDir;
+            //checking if arg cont path separator (backslash)
+            if (arg.contains(File.separator)) {
+                // If the argument contains a path separator, treat it as a full path.
+                newDir = new File(arg);
+            } else {
+                // Otherwise, it's just a directory name, create it in the current directory.
+                newDir = new File(path_ + File.separator + arg);
+            }
+
+            if (!newDir.exists()) {//check if the dir already exists
+                newDir.mkdirs();//if it doesnt, create a one
+                System.out.println("Directory created: " + newDir.getAbsolutePath());
+                //getAbsolutePath(): returns the full path to the file, including the directory hierarchy leading to that file.
+            } else {
+                System.out.println("Directory already exists: " + newDir.getAbsolutePath());
+            }
+        }
+    }
+
+
     public void rmdir(){}
     public void ls() throws IOException{}
     public void ls_r() throws IOException{}
@@ -44,7 +67,6 @@ public class Terminal {
                 echo();
                 break;
             case "exit":
-                //System.out.println("You left!");
                 exit();
                 break;
             case "pwd":

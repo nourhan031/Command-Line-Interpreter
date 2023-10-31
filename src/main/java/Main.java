@@ -17,7 +17,6 @@ public class Main {
                 obj.setParser(object);
                 obj.chooseCommandAction();
                 System.out.println("-------------------------");
-                //System.out.println("YES!");
             }
         }
     }
