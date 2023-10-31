@@ -11,7 +11,9 @@ public class Terminal {
     }
     //////////////////////////////////////////////////////////////////////////////
     public void echo(){
-        System.out.println(parser.getArgs()[0]);
+        String[] args = parser.getArgs();
+        String output = String.join(" ",args);
+        System.out.println(output);
         //parser.getArgs(): retrieves the arr of args entered by the user
         //[0] to access the 1st arg in the array
     }
@@ -23,7 +25,9 @@ public class Terminal {
     public void touch() throws IOException {}
     public void cat() throws IOException{}
     public void cd() throws IOException {}
-    public boolean rm(){}
+    public boolean rm(){
+        return false;
+    }
     public void cp() throws IOException {}
     public void mkdir(){}
     public void rmdir(){}
@@ -40,7 +44,7 @@ public class Terminal {
                 echo();
                 break;
             case "exit":
-                System.out.println("You left!");
+                //System.out.println("You left!");
                 exit();
                 break;
             case "pwd":
