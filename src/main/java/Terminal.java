@@ -20,6 +20,15 @@ public class Terminal {
     public void pwd() throws IOException {
         System.out.println(path_);//prints the value stored in path_ which represents the cwd
     }
+    public void touch() throws IOException {}
+    public void cat() throws IOException{}
+    public void cd() throws IOException {}
+    public boolean rm(){}
+    public void cp() throws IOException {}
+    public void mkdir(){}
+    public void rmdir(){}
+    public void ls() throws IOException{}
+    public void ls_r() throws IOException{}
     public void exit(){
         System.exit(0);
     }
