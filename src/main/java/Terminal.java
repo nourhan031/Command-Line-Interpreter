@@ -67,7 +67,39 @@ public class Terminal {
     }
 
     public void cd() throws IOException {
-        this.path_ = "C:\\Users\\DELL.SXTO6";
+        String[] args = parser.getArgs();
+
+        if (args.length == 1) {
+            // Case 1: No arguments, change to the home directory
+            path_ = System.getProperty("user.home");
+        }
+        else if (args.length == 2 && args[1].equals("..")) {
+            // Case 2: Argument is "..", move to the previous directory
+            File currentDirectory = new File(path_);
+            String parentPath = currentDirectory.getParent();
+            if (parentPath != null) {
+                path_ = parentPath;
+            } else {
+                System.out.println("Already in the root directory.");
+            }
+        }
+        else if (args.length == 2) {
+            // Case 3: Argument is a new directory path
+            File newDirectory = new File(args[1]);
+            if (newDirectory.isAbsolute()) {
+                // If it's an absolute path, set it directly
+                path_ = newDirectory.getAbsolutePath();
+            } else {
+                // If it's a relative path, resolve it relative to the current directory
+                path_ = new File(path_, args[1]).getAbsolutePath();
+            }
+            if (!newDirectory.exists() || !newDirectory.isDirectory()) {
+                System.out.println("Directory does not exist: " + newDirectory.getAbsolutePath());
+            }
+        } else {
+            System.out.println("Invalid 'cd' command. Usage: cd [directory]");
+        }
+            //this.path_ = "C:\\Users\\DELL.SXTO6";
         history.add("cd");
     }
 

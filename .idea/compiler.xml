@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="CLI" />
         <module name="Command Line Interpreter" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="CLI" target="18" />
       <module name="Command Line Interpreter" target="18" />
     </bytecodeTargetLevel>
   </component>
