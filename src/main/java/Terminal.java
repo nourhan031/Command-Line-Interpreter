@@ -52,8 +52,50 @@ public class Terminal {
         }
     }
 
+//TODO: SOLVE THE  FUNCTION NOT DELETING A DIR IN A SPECIFIED PATH
+    public void rmdir() {
+        String parameter = parser.getArgs()[0];
+        if(parameter.equals("*")){
+            File dir = new File(path_);
+            String [] dirs = dir.list();
+            int i;
+            for(i=0;i < dirs.length;i++){
+                File directory = new File(dirs[i]);
+                if(directory.isDirectory()){
+                    if(directory.length() == 0){
+                        directory.delete();
+                    }
+                }
+            }
+        }
+        else if(parameter.charAt(1) == ':'){
+            File dir = new File(parameter);
+            String [] dirs = dir.list();
+            int i;
+            for(i=0;i < dirs.length;i++){
+                File directory_ = new File(parameter,dirs[i]);
+                if(directory_.isDirectory()){
+                    if(directory_.length() == 0){
+                        directory_.delete();
+                    }
+                }
+            }
+        }
 
-    public void rmdir(){}
+        else{
+            File dir = new File(path_+"\\"+parameter);
+            String [] dirs = dir.list();
+            int i;
+            for(i=0;i < dirs.length;i++){
+                File directory_ = new File(parameter,dirs[i]);
+                if(directory_.isDirectory()){
+                    if(directory_.length() == 0){
+                        directory_.delete();
+                    }
+                }
+            }
+        }
+    }
     public void ls() throws IOException{}
     public void ls_r() throws IOException{}
     public void exit(){
