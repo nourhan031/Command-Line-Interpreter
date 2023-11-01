@@ -112,38 +112,51 @@ public class Terminal {
 
     public void rmdir(){
         history.add("rmdir");
+
     }
 
     public void ls() throws IOException{
-        File directory = new File(path_);
-        File [] content = directory.listFiles();
-        int size = content.length;
-        String args[] = new String[size];
-        int i=0;
-        for (File object : content){
-            args[i] = object.getName();
-            i++;
+        File directory=new File(path_);
+        String[] content = directory.list();
+        for (int i = 0; i < content.length; i++) {
+            System.out.println(content[i]);
         }
-        Arrays.sort(args);
-        for(int j =0; j<size ; j++){
-            System.out.println(args[j]);
-        }
+//        File directory = new File(path_);
+//        File [] content = directory.listFiles();
+//        int size = content.length;
+//        String args[] = new String[size];
+//        int i=0;
+//        for (File object : content){
+//            args[i] = object.getName();
+//            i++;
+//        }
+//        Arrays.sort(args);
+//        for(int j =0; j<size ; j++){
+//            System.out.println(args[j]);
+//        }
         history.add("ls");
     }
     public void ls_r() throws IOException{
-        File directory = new File(path_);
-        File [] content = directory.listFiles();
-        int size = content.length;
-        String args[] = new String[size];
-        int i=0;
-        for (File object : content){
-            args[i] = object.getName();
-            i++;
+        File dir = new File (path_);
+        String [] contents = dir.list();
+        for(int i = contents.length - 1;i >= 0;i--){
+            //String out = String.join(" ",contents);
+            System.out.println(contents[i]);
         }
-        Arrays.sort(args);
-        for(int j=size-1 ;j>=0 ; j--){
-            System.out.println(args[j]);
-        }
+//        File directory = new File(path_);
+//        File [] content = directory.listFiles();
+//        int size = content.length;
+//        String args[] = new String[size];
+//        int i=0;
+//        for (File object : content){
+//            args[i] = object.getName();
+//            i++;
+//        }
+//        Arrays.sort(args);
+//        for(int j=size-1 ;j>=0 ; j--){
+//            System.out.println(args[j]);
+//        }
+        history.add("ls -r");
     }
     public void exit(){
         System.exit(0);
