@@ -5,7 +5,7 @@ import java.io.IOException;
 public class Parser {
     String commandName;//parsed command name
     String[] args;//parsed args
-    String[] commands = {"echo", "pwd", "ls","cd","cat","exit","touch","rm","cp","cp -r","mkdir","rmdir","history"};
+    String[] commands = {"echo", "pwd", "ls","cd","mkdir","cat","exit","touch","rm","cp","mkdir","rmdir","history","wc"};
     public boolean parse(String input){//method to parse user input
         input = input.trim();
         commandName = input.split("\\s+")[0];//set to the 1st word in the input split by space

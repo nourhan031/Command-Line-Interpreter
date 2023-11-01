@@ -69,6 +69,43 @@ public class Terminal {
 
     public void cat() throws IOException {
 
+        if(cmd.length >= 2){
+            String filePath = path_+"\\"+cmd[1];
+            File file = new File(filePath);
+            if (file.exists()) {
+                try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        System.out.println(line);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                System.out.println("cat: "+cmd[1]+": No such file or directory");
+            }
+            if(cmd.length >= 3){
+                filePath = path_+"\\"+cmd[2];
+                file = new File(filePath);
+                if (file.exists()) {
+                    try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            System.out.println(line);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    System.out.println("cat: "+cmd[2]+": No such file or directory");
+                }
+            }
+            if(cmd.length > 3){
+                System.out.println("cat: only can concatenate 2 arguments");
+            }
+        }
     }
 
 
@@ -79,6 +116,37 @@ public class Terminal {
 
     public void cp() throws IOException {
 
+    }
+    public void wc(){
+        String filePath = path_+"\\"+cmd[1];
+        File file = new File(filePath);
+        int lineCount = 0;
+        int charCount = 0;
+        int wordCount = 0;
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    // Count lines
+                    lineCount++;
+
+                    // Count characters (including spaces)
+                    charCount += line.length();
+
+                    // Count words (split by spaces)
+                    String[] words = line.split("\\s+");
+                    wordCount += words.length;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println(lineCount + " " + wordCount + " " + charCount + " " + cmd[1]);
+        }
+        else
+        {
+            System.out.println("cat: "+cmd[1]+": No such file");
+        }
     }
 
     public void mkdir() {
@@ -198,6 +266,9 @@ public class Terminal {
                 break;
             case "cd":
                 cd();
+                break;
+            case "wc":
+                wc();
                 break;
             case "cat":
                 cat();
