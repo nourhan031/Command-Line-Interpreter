@@ -5,23 +5,20 @@ import java.io.IOException;
 public class Parser {
     String commandName;//parsed command name
     String[] args;//parsed args
-    String[] commands = {"echo", "pwd", "ls", "ls-r","cd","mkdir","cat","exit","touch","rm","cp","cp-r","mkdir","rmdir"};
+    String[] commands = {"echo", "pwd", "ls", "ls-r","cd","cat","exit","touch","rm","cp","cp-r","mkdir","rmdir","history"};
     public boolean parse(String input){//method to parse user input
-        commandName = input.split(" ")[0];//set to the 1st word in the input split by space
+        input = input.trim();
+        commandName = input.split("\\s+")[0];//set to the 1st word in the input split by space
         int i;
         for (i = 0;i < commands.length;i++){
             //iterate through commands arr to check if the commandName matches any of the predefined ones
             if(commands[i].equals(commandName)){
                 //if a match is found, it splits the input into words and stores them in the args array
-                String [] splits = input.split(" ");
-                commandName = splits[0];
-                args = new String[splits.length-1];
-                for(int j = 1;j < splits.length;j++){
-                    args[j-1] = splits[j];
-                }
+                args = input.split("\\s+");
                 break;
             }
         }
+
         try {
             if (i == commands.length) {
                 throw new IOException();
@@ -35,6 +32,7 @@ public class Parser {
         }
         return true;
     }
+
     public String getCommandName(){//method to retrieve the parsed commandName after calling the parse method
         return commandName;
     }

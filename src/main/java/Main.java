@@ -12,11 +12,12 @@ public class Main {
             System.out.print("$");
             String cmd = scan.nextLine();
             Parser object = new Parser();
-            object.parse(cmd);
             if (object.parse(cmd)) {
                 obj.setParser(object);
+                obj.setCmd();
                 obj.chooseCommandAction();
                 System.out.println("-------------------------");
+                //System.out.println("YES!");
             }
         }
     }
