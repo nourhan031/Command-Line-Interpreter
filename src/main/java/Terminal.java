@@ -2,6 +2,9 @@ import java.io.*;
 import java.util.*;
 import java.io.File;
 import java.io.IOException;
+
+
+
 public class Terminal {
     Parser parser;
     String path_;//store the cwd path
@@ -19,6 +22,9 @@ public class Terminal {
         this.path_ = System.getProperty("user.dir");//setting the path_ var to the cwd
         this.parser = new Parser();
     }
+    public void setHistory(String line){
+        history.add(line);
+    }
 
     public void setCmd() {
         cmd = Arrays.copyOf(parser.getArgs(), parser.getArgs().length);
@@ -35,7 +41,7 @@ public class Terminal {
     }
 
     //////////////////////////////////////////////////////////////////////////////
-    public void printHistory() {
+    public void history() {
         for (int i = 0; i < history.size(); i++) {
             System.out.println((i + 1) + "  " + history.elementAt(i));
         }
@@ -45,7 +51,6 @@ public class Terminal {
         String[] args = parser.getArgs();
         String output = String.join(" ", args);
         System.out.println(output);
-        history.add("echo");
         //parser.getArgs(): retrieves the arr of args entered by the user
         //[0] to access the 1st arg in the array
 
@@ -55,61 +60,25 @@ public class Terminal {
     //it's a good practice to document potential exceptions in method signatures to ensure code maintainability and readability, even if they are not currently being thrown.
     public void pwd() throws IOException {
         System.out.println(path_);//prints the value stored in path_ which represents the cwd
-        history.add("pwd");
+
     }
 
     public void touch() throws IOException {
-        history.add("touch");
+
     }
 
     public void cat() throws IOException {
-        history.add("cat");
+
     }
 
-    public void cd() throws IOException {
-        String[] args = parser.getArgs();
 
-        if (args.length == 1) {
-            // Case 1: No arguments, change to the home directory
-            path_ = System.getProperty("user.home");
-        }
-        else if (args.length == 2 && args[1].equals("..")) {
-            // Case 2: Argument is "..", move to the previous directory
-            File currentDirectory = new File(path_);
-            String parentPath = currentDirectory.getParent();
-            if (parentPath != null) {
-                path_ = parentPath;
-            } else {
-                System.out.println("Already in the root directory.");
-            }
-        }
-        else if (args.length == 2) {
-            // Case 3: Argument is a new directory path
-            File newDirectory = new File(args[1]);
-            if (newDirectory.isAbsolute()) {
-                // If it's an absolute path, set it directly
-                path_ = newDirectory.getAbsolutePath();
-            } else {
-                // If it's a relative path, resolve it relative to the current directory
-                path_ = new File(path_, args[1]).getAbsolutePath();
-            }
-            if (!newDirectory.exists() || !newDirectory.isDirectory()) {
-                System.out.println("Directory does not exist: " + newDirectory.getAbsolutePath());
-            }
-        } else {
-            System.out.println("Invalid 'cd' command. Usage: cd [directory]");
-        }
-            //this.path_ = "C:\\Users\\DELL.SXTO6";
-        history.add("cd");
-    }
 
     public boolean rm() {
-        history.add("rm");
         return false;
     }
 
     public void cp() throws IOException {
-        history.add("cp");
+
     }
 
     public void mkdir() {
@@ -141,55 +110,70 @@ public class Terminal {
             }
         }
     }
+    public void cd() throws IOException {
+        String[] args = parser.getArgs();
 
-    public void rmdir(){
-        history.add("rmdir");
+        if (args.length == 1) {
+            // Case 1: No arguments, change to the home directory
+            path_ = System.getProperty("user.home");
+        }
+        else if(args.length > 2 ){
+            System.out.println("bash: cd: too many arguments");
+        }
+        else if (args.length == 2 && args[1].equals("..")) {
+            // Case 2: Argument is "..", move to the previous directory
+            File currentDirectory = new File(path_);
+            String parentPath = currentDirectory.getParent();
+            if (parentPath != null) {
+                path_ = parentPath;
+            } else {
+                System.out.println("Already in the root directory.");
+            }
+        }
+        else if (args.length == 2) {
+            // Case 3: Argument is a new directory path
+            File newDirectory = new File(args[1]);
+            if (newDirectory.isAbsolute()) {
+                // If it's an absolute path, set it directly
+                path_ = newDirectory.getAbsolutePath();
+            } else {
+                // If it's a relative path, resolve it relative to the current directory
+                path_ = new File(path_, args[1]).getAbsolutePath();
+            }
+            if (!newDirectory.exists() || !newDirectory.isDirectory()) {
+                System.out.println("Directory does not exist: " + newDirectory.getAbsolutePath());
+            }
+        } else {
+            System.out.println("Invalid 'cd' command. Usage: cd [directory]");
+        }
+        //this.path_ = "C:\\Users\\DELL.SXTO6";
 
     }
 
+    public void rmdir(){
+
+    }
     public void ls() throws IOException{
         File directory=new File(path_);
         String[] content = directory.list();
-        for (int i = 0; i < content.length; i++) {
-            System.out.println(content[i]);
+        if(cmd.length == 1){
+            for (int i = 0; i < content.length; i++) {
+                System.out.println(content[i]);
+            }
         }
-//        File directory = new File(path_);
-//        File [] content = directory.listFiles();
-//        int size = content.length;
-//        String args[] = new String[size];
-//        int i=0;
-//        for (File object : content){
-//            args[i] = object.getName();
-//            i++;
-//        }
-//        Arrays.sort(args);
-//        for(int j =0; j<size ; j++){
-//            System.out.println(args[j]);
-//        }
-        history.add("ls");
-    }
-    public void ls_r() throws IOException{
-        File dir = new File (path_);
-        String [] contents = dir.list();
-        for(int i = contents.length - 1;i >= 0;i--){
-            //String out = String.join(" ",contents);
-            System.out.println(contents[i]);
+        else {
+            if(cmd[1].equals("-r")){
+                for (int i = content.length-1 ; i >= 0 ; i--) {
+                    System.out.println(content[i]);
+                }
+            }
+            else{
+                System.out.println("ls: cannot access '" + cmd[1] + "' No such file or directory");
+            }
         }
-//        File directory = new File(path_);
-//        File [] content = directory.listFiles();
-//        int size = content.length;
-//        String args[] = new String[size];
-//        int i=0;
-//        for (File object : content){
-//            args[i] = object.getName();
-//            i++;
-//        }
-//        Arrays.sort(args);
-//        for(int j=size-1 ;j>=0 ; j--){
-//            System.out.println(args[j]);
-//        }
-        history.add("ls -r");
+
     }
+
     public void exit(){
         System.exit(0);
     }
@@ -209,8 +193,8 @@ public class Terminal {
             case "ls":
                 ls();
                 break;
-            case "ls -r":
-                ls_r();
+            case "ls-r":
+                ls();
                 break;
             case "cd":
                 cd();
@@ -234,13 +218,9 @@ public class Terminal {
                 mkdir();
                 break;
             case "history":
-                printHistory();
+                history();
                 break;
 
         }
     }
-
-
-
-
 }

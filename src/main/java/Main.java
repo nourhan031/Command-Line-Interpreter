@@ -15,6 +15,7 @@ public class Main {
             if (object.parse(cmd)) {
                 obj.setParser(object);
                 obj.setCmd();
+                obj.setHistory(cmd);
                 obj.chooseCommandAction();
                 System.out.println("-------------------------");
                 //System.out.println("YES!");
