@@ -2,9 +2,6 @@ import java.io.*;
 import java.util.*;
 import java.io.File;
 import java.io.IOException;
-
-
-
 public class Terminal {
     Parser parser;
     String path_;//store the cwd path
@@ -55,16 +52,39 @@ public class Terminal {
         //[0] to access the 1st arg in the array
 
     }
-
-    //NOTE:
-    //it's a good practice to document potential exceptions in method signatures to ensure code maintainability and readability, even if they are not currently being thrown.
     public void pwd() throws IOException {
         System.out.println(path_);//prints the value stored in path_ which represents the cwd
 
     }
 
     public void touch() throws IOException {
+        String path = parser.getArgs()[0];
+        char backslash = '\\';
+        String name = "";
 
+        int i, j;
+        for (i = path.length() - 1; i >= 0; i--) {
+            if(path.charAt(i) == backslash){
+                break;
+            }
+            name = path.charAt(i) + name;
+        }
+        String newPath="";
+        for(j = 0;j < i;j++){
+            newPath += path.charAt(j);
+        }
+
+
+        if(path.charAt(1) == ':') {
+            System.setProperty("user.dir",newPath);
+
+            File newFile = new File(newPath+"\\"+name);
+            newFile.createNewFile();
+        }
+        else{
+            File newFile = new File(path_ +"\\"+newPath+"\\"+name);
+            newFile.createNewFile();
+        }
     }
 
     public void cat() throws IOException {
@@ -111,11 +131,26 @@ public class Terminal {
 
 
     public boolean rm() {
-//        String file_ = parser.getArgs()[0];
-//        File file = new File(path_+"\\"+file_);
-//        file.delete();
-//        return true;
-          return false;
+        String[] args = parser.getArgs();
+        if (args.length < 2) {
+            System.out.println("Usage: rm [file1] [file2] ...");
+            return false;
+        }
+
+        for (int i = 1; i < args.length; i++) {
+            String filePath = path_ + File.separator + args[i];
+            File file = new File(filePath);
+            if (file.exists()) {
+                if (file.delete()) {
+                    System.out.println("Removed: " + file.getAbsolutePath());
+                } else {
+                    System.out.println("Failed to remove: " + file.getAbsolutePath());
+                }
+            } else {
+                System.out.println("File not found: " + file.getAbsolutePath());
+            }
+        }
+        return true;
         }
 
     public void cp() throws IOException {
@@ -223,7 +258,17 @@ public class Terminal {
     }
 
     public void rmdir(){
+        File currentDir = new File(path_);
+        File[] subDirs = currentDir.listFiles(File::isDirectory);
 
+        if (subDirs != null) {
+            for (File subDir : subDirs) {
+                if (subDir.list() != null && subDir.list().length == 0) {
+                    // Check if it's a directory and it's empty
+                    subDir.delete(); // Delete the empty directory
+                }
+            }
+        }
     }
     public void ls() throws IOException{
         File directory=new File(path_);

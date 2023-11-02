@@ -5,7 +5,7 @@ import java.io.IOException;
 public class Parser {
     String commandName;//parsed command name
     String[] args;//parsed args
-    String[] commands = {"echo", "pwd", "ls","cd","mkdir","cat","exit","touch","rm","cp","mkdir","rmdir","history","wc"};
+    String[] commands = {"echo", "pwd", "ls","cd","mkdir","ls -r","cat","exit","touch","rm","cp","mkdir","rmdir","history","wc"};
     public boolean parse(String input){//method to parse user input
         input = input.trim();
         commandName = input.split("\\s+")[0];//set to the 1st word in the input split by space
@@ -22,10 +22,9 @@ public class Parser {
         try {
             if (i == commands.length) {
                 throw new IOException();
-                //return true;
             }
         }
-        //if the commandName isnt found in the commansd array, it throws an IOException and returns false indicating that the input is invalid
+        //if commandName isn't found in the command's arrs, it throws an IOException and returns false indicating that the input is invalid
         catch (IOException e){
             System.out.println("invalid input");
             return false;
