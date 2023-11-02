@@ -16,7 +16,14 @@ public class Main {
                 obj.setParser(object);
                 obj.setCmd();
                 obj.setHistory(cmd);
-                obj.chooseCommandAction();
+
+//                if (object.getCommandName().equals("cp")) {
+//                    // If the command is 'cp', pass the arguments directly to the 'cp' method.
+//                    obj.cp(object.getArgs());
+//                }
+                //else {
+                    obj.chooseCommandAction();
+               // }
                 System.out.println("-------------------------");
                 //System.out.println("YES!");
             }

@@ -111,12 +111,16 @@ public class Terminal {
 
 
     public boolean rm() {
-        return false;
-    }
+//        String file_ = parser.getArgs()[0];
+//        File file = new File(path_+"\\"+file_);
+//        file.delete();
+//        return true;
+          return false;
+        }
 
     public void cp() throws IOException {
-
     }
+
     public void wc(){
         String filePath = path_+"\\"+cmd[1];
         File file = new File(filePath);
@@ -261,7 +265,7 @@ public class Terminal {
             case "ls":
                 ls();
                 break;
-            case "ls-r":
+            case "ls -r":
                 ls();
                 break;
             case "cd":
@@ -280,7 +284,7 @@ public class Terminal {
                 rm();
                 break;
             case "cp":
-                cp();
+                //cp();
                 break;
             case "rmdir":
                 rmdir();

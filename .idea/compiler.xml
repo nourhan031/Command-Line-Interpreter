@@ -11,7 +11,6 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="CLI" target="18" />
       <module name="Command Line Interpreter" target="18" />
     </bytecodeTargetLevel>
   </component>
