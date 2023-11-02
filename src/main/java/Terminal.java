@@ -154,6 +154,42 @@ public class Terminal {
         }
 
     public void cp() throws IOException {
+        // Verify that parser.getArgs() contains at least two arguments
+        String[] args = parser.getArgs();
+        if (args.length < 2) {
+            System.err.println("Usage: <source_file> <destination_file>");
+            return;
+        }
+
+        String sourceFileName = args[1];
+        String destinationFileName = args[2];
+        // Combine the path and file names to create file objects
+        File sourceFile = new File(path_, sourceFileName);
+        File destinationFile = new File(path_, destinationFileName);
+
+        // Check if the source file exists
+        if (!sourceFile.exists()) {
+            System.err.println("Source file does not exist: " + sourceFile.getAbsolutePath());
+            return;
+        }
+        // Check if the destination file already exists
+        if (destinationFile.exists()) {
+            System.err.println("Destination file already exists: " + destinationFile.getAbsolutePath());
+            return;
+        }
+
+        try (Scanner reader = new Scanner(sourceFile);
+             FileWriter writer = new FileWriter(destinationFile)) {
+
+            while (reader.hasNextLine()) {
+                String line = reader.nextLine();
+                writer.write(line);
+                writer.write("\n");
+            }
+            System.out.println("File copied successfully.");
+        } catch (IOException e) {
+            System.err.println("Error copying the file: " + e.getMessage());
+        }
     }
 
     public void wc(){
@@ -329,7 +365,7 @@ public class Terminal {
                 rm();
                 break;
             case "cp":
-                //cp();
+                cp();
                 break;
             case "rmdir":
                 rmdir();
