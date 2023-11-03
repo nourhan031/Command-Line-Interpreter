@@ -6,8 +6,8 @@ The CLI will keep accepting different commands until the user enters "exit" whic
 <h2>Implemented Commands</h2>
 1- <code>echo</code>: Prints the argument passed to it.<br>
 2- <code>pwd</code>: Prints the current path.<br>
-3- <code>mkdir</code>: Creates a new directory.
-4- <code>rmdir</code>: Removes empty directories.
+3- <code>mkdir</code>: Creates a new directory.<br>
+4- <code>rmdir</code>: Removes empty directories.<br>
 5- <code>ls</code>: Lists the contents of the current directory sorted alphabetically.<br>
 6- <code>ls -r</code>: Lists the contents of the current directory in reverse order.<br>
 7- <code>cp</code>: Copies the first file onto the second one.<br>
