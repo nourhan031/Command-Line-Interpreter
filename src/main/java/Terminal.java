@@ -44,25 +44,24 @@ public class Terminal {
         }
     }
 
-    public void echo() {
-        String[] args = parser.getArgs();
-        String output = String.join(" ", args);
-        System.out.println(output);
+    public void echo(){
+        for (int i = 1 ; i < parser.getArgs().length; i++){
+            System.out.print(parser.getArgs()[i]+" ");
+        }
+        System.out.println();
         //parser.getArgs(): retrieves the arr of args entered by the user
-        //[0] to access the 1st arg in the array
-
     }
     public void pwd() throws IOException {
         System.out.println(path_);//prints the value stored in path_ which represents the cwd
-
     }
 
     public void touch() throws IOException {
-        String path = parser.getArgs()[0];
+        String path = parser.getArgs()[1];
         char backslash = '\\';
         String name = "";
 
         int i, j;
+        //find the last backslash in the path string
         for (i = path.length() - 1; i >= 0; i--) {
             if(path.charAt(i) == backslash){
                 break;
@@ -74,12 +73,16 @@ public class Terminal {
             newPath += path.charAt(j);
         }
 
-
         if(path.charAt(1) == ':') {
             System.setProperty("user.dir",newPath);
 
             File newFile = new File(newPath+"\\"+name);
-            newFile.createNewFile();
+            if(!newFile.exists()){
+                System.out.println("No such file or directory.");
+            }
+            else {
+                newFile.createNewFile();
+            }
         }
         else{
             File newFile = new File(path_ +"\\"+newPath+"\\"+name);
@@ -88,7 +91,6 @@ public class Terminal {
     }
 
     public void cat() throws IOException {
-
         if(cmd.length >= 2){
             String filePath = path_+"\\"+cmd[1];
             File file = new File(filePath);
@@ -126,8 +128,10 @@ public class Terminal {
                 System.out.println("cat: only can concatenate 2 arguments");
             }
         }
+        else {
+            System.out.println("cat: must take 1 or 2 arguments");
+        }
     }
-
 
 
     public boolean rm() {
@@ -143,7 +147,8 @@ public class Terminal {
             if (file.exists()) {
                 if (file.delete()) {
                     System.out.println("Removed: " + file.getAbsolutePath());
-                } else {
+                }
+                else {
                     System.out.println("Failed to remove: " + file.getAbsolutePath());
                 }
             } else {
@@ -225,7 +230,7 @@ public class Terminal {
     }
 
     public void mkdir() {
-        history.add("mkdir");
+        //history.add("mkdir");
         String[] args = parser.getArgs();//args contains the args provided by mkdir command, it could be a path or a dir name
         for (String arg : args) {
             if (arg.equals("mkdir")) {
